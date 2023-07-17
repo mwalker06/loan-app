@@ -1,0 +1,25 @@
+<!-- Title: contact-us.component
+Author: Megan Walker
+Date: 07-16-2023
+Description: Contact Us Component HTML page
+Source: Professor Krasso, Angular.io -->
+
+
+<div class="container">
+    <h1>Contact Us</h1>
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" class="form-control" formControlName="name" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" class="form-control" formControlName="email" required>
+        </div>
+        <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" class="form-control" formControlName="message" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
