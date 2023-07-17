@@ -7,6 +7,7 @@ Source: Professor Krasso, Angular.io
 
 
 import { Component } from '@angular/core';
+import { LoanCalculatorComponent } from './loan-calculator/loan-calculator.component';
 
 
 @Component({
