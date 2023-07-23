@@ -5,7 +5,7 @@ Description: Contact Us Component HTML page
 Source: Professor Krasso, Angular.io -->
 
 
-<div class="container">
+<div class="container custom-theme">
     <h1>Contact Us</h1>
     <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
         <div class="form-group">
@@ -20,6 +20,6 @@ Source: Professor Krasso, Angular.io -->
             <label for="message">Message</label>
             <textarea id="message" class="form-control" formControlName="message" required></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Calculate</button>
     </form>
 </div>

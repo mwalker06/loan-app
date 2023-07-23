@@ -5,7 +5,7 @@ Description: Loan calculator component for capstone project
 Source: Professor Krasso, Angular.io */
 
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 
 interface AmortizationPayment {
   paymentNumber: number;
@@ -38,7 +38,7 @@ export class LoanCalculatorComponent implements OnInit {
       interestRate: ['', Validators.required],
       loanTerm: ['', Validators.required],
       extraPaymentsToggle: [false],
-      extraPayments: ['']
+      extraPayments: this.formBuilder.array([]) // Using FormArray for multiple extra payments
     });
   }
 
@@ -50,7 +50,7 @@ export class LoanCalculatorComponent implements OnInit {
     const loanAmount = this.loanForm.value.loanAmount;
     const interestRate = this.loanForm.value.interestRate / 100;
     const loanTerm = this.loanForm.value.loanTerm;
-    const extraPayments = this.loanForm.value.extraPayments || 0;
+    const extraPaymentsArray = this.loanForm.get('extraPayments') as FormArray;
 
     const monthlyInterestRate = interestRate / 12;
     const monthlyPayment =
@@ -58,21 +58,28 @@ export class LoanCalculatorComponent implements OnInit {
       (1 - Math.pow(1 + monthlyInterestRate, -loanTerm));
     this.monthlyPayment = monthlyPayment;
 
-    this.generateAmortizationSchedule(loanAmount, monthlyInterestRate, loanTerm, extraPayments);
+    this.generateAmortizationSchedule(loanAmount, monthlyInterestRate, loanTerm, extraPaymentsArray);
   }
 
   generateAmortizationSchedule(
     loanAmount: number,
     monthlyInterestRate: number,
     loanTerm: number,
-    extraPayments: number
+    extraPaymentsArray: FormArray
   ) {
     this.amortizationSchedule = [];
     let remainingBalance = loanAmount;
 
     for (let i = 1; i <= loanTerm; i++) {
       const interest = remainingBalance * monthlyInterestRate;
-      const principal = this.monthlyPayment - interest + extraPayments;
+
+      let principal = this.monthlyPayment - interest;
+      if (extraPaymentsArray && extraPaymentsArray.length > 0) {
+        for (let j = 0; j < extraPaymentsArray.length; j++) {
+          const extraPayment = extraPaymentsArray.at(j).value;
+          principal += extraPayment;
+        }
+      }
 
       remainingBalance -= principal;
       remainingBalance = Math.max(remainingBalance, 0); // Ensure remaining balance doesn't go negative
@@ -97,5 +104,9 @@ export class LoanCalculatorComponent implements OnInit {
     const extraPaymentsToggle = this.loanForm.get('extraPaymentsToggle');
     extraPaymentsToggle.setValue(!extraPaymentsToggle.value);
   }
-}
 
+  addExtraPayment() {
+    const extraPaymentsArray = this.loanForm.get('extraPayments') as FormArray;
+    extraPaymentsArray.push(this.formBuilder.control(''));
+  }
+}

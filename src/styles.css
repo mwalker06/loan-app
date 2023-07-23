@@ -1,1 +1,38 @@
-/* You can add global styles to this file, and also import other style files */
+/* Title: styles
+Author: Megan Walker
+Date: 07-23-2023
+Description:''
+Source: Professor Krasso, Angular.io */
+
+/* Global styling */
+/* Custom theme colors */
+:root {
+  --primary-color: #05386b;
+  --secondary-color: #379683;
+  --success-color: #5cdb95;
+  --light-color: #8ee4af;
+  --background-color: #edf5e1;
+}
+
+/* Apply custom theme to elements */
+body {
+  background-color: var(--background-color);
+}
+
+.header,
+.navbar,
+.footer {
+  background-color: var(--secondary-color);
+  color: #fff;
+}
+.a.nav-link {
+  color: #fff important!;
+}
+
+button {
+  background-color: var(--primary-color);
+}
+.custom-theme .card-header {
+  background-color: var(--secondary-color);
+  color: #fff;
+}
